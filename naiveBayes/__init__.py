@@ -1,0 +1,1 @@
+from ._NB import CategoricalNB,GaussianNB,NaiveBayes
