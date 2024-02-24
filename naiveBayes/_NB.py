@@ -88,8 +88,12 @@ class GaussianNB:
         Returns:
             numpy.ndarray: Predicted class labels.
         """
-        y_predict = [self._predict(x) for x in test]
-        return np.array(y_predict)
+        y_predict = None
+        if test.ndim==1:
+            y_predict = self._predict(test)
+        else:
+             y_predict = [self._predict(x) for x in test]
+        return np.array(y_predict)       
 
     def _predict(self, x):
         """
@@ -211,7 +215,11 @@ class NaiveBayes:
         Returns:
             numpy.ndarray: Predicted class labels.
         """
-        y_predict = [self._predict(x) for x in test]
+        y_predict = None
+        if test.ndim==1:
+            y_predict = self._predict(test)
+        else:
+             y_predict = [self._predict(x) for x in test]
         return np.array(y_predict)
 
     def _predict(self, x):
