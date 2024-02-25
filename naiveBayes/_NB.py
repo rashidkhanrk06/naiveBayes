@@ -177,8 +177,8 @@ class NaiveBayes:
         self.classes = None
         self._prior = None
         self._prob = None
-        self.n_samples = None
         self.alpha = alpha
+        self.classes_sum = []
 
     def fit(self, _X, y):
         """
@@ -201,9 +201,9 @@ class NaiveBayes:
 
         for idx, c in enumerate(self.classes):
             X_c = _X[y == c]
-            n_X_c = X_c.shape[0]
-            self._prob[idx, :] = (np.sum(X_c, axis=0) + self.alpha) / (n_X_c + self.alpha * self.n_samples)
+            self._prob[idx, :] = np.sum(X_c, axis=0) 
             self._prior[idx] = X_c.shape[0] / n_sample
+            self.classes_sum.append(np.sum(self._prob))
 
     def predict(self, test):
         """
@@ -252,10 +252,10 @@ class NaiveBayes:
             numpy.ndarray: Conditional probability values.
         """
         arr_ = self._prob[c_idx]
-        _x = arr_[np.where(x > 0)]
+        indices = np.where(x > 0)
+        _x = (arr_[indices]+self.alpha)/(self.classes_sum[c_idx]+(self.alpha*sum(self.classes_sum)))
 
         return _x
-
 
 
 
